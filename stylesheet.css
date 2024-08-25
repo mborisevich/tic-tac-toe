@@ -1,19 +1,136 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    box-sizing: border-box;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+    background-color: #28536B;
+	line-height: 1;
+    width: 100vw;
+    height: 100vh;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+div {
+    text-align: center;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+label {
+    color: #A5D8FF;
+}
+div.main {
+    background-color: #702632;
+    height: 100vh;
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
 div.col{
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 200px;
-    background-color: skyblue;
-    border: 1px solid black;
-    text-align: center;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    background-color: #A5D8FF;
+    border: 1px solid #702632;
     font-size: 3rem;
+    color: #702632
 }
 div.container {
-    display: grid;
     height: 600px;
     width: 600px;
+    margin: auto;
+    margin-top: 90px;
 }
 div.row {
     display: flex;
+    flex: 1;
+    height: 33%;
+}
+div.container>h1 {
+    color: #A5D8FF;
+    font-size: 2rem;
+    text-align: center;
+    padding-bottom: 20px;
+}
+div.player {
+    font-size: 2rem;
+    color: #A5D8FF;
+
+}
+div.info { 
+    display: flex;
+    gap: 300px;
+    justify-content: center;
+    padding: 20px;
+}
+div.info>button.restart {
+    width: 200px;
+    height: 50px;
+    border: none;
+    background-color:#A5D8FF;
+
+}
+
+.win-message {
+    font-size: 3rem;
+    padding: 10px;
+}
+form {
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+
+}
+form>input{
+    height: 25px;
+    width: 200px;
+    font-size: 1.25rem;
+    outline: none;
+    box-sizing: border-box;
+
+}
+form>input#submit {
+    padding: 5px;
+    height: 35px;
+    width: 100%;
+    box-sizing: border-box;
+
 }

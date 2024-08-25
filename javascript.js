@@ -4,6 +4,7 @@ function GameBoard(){
     const board = [];
     const rows = 3;
     const columns = 3;
+    let emptyGrids = rows * columns
     InitializeBoard(board, rows, columns);
     
     const GetBoard = () => board
@@ -13,7 +14,8 @@ function GameBoard(){
 
     }
 
-    function InitializeBoard(board, rows, columns){
+    function InitializeBoard(board=board, rows=rows, columns=columns){
+        emptyGrids = rows * columns
         for (i = 0; i < rows; i++){
             board[i] = [];
             for (j = 0; j < columns; j++){
@@ -21,7 +23,15 @@ function GameBoard(){
             };
         }
     }
-    
+   /** function countEmptyCells(){
+        board.forEach((row) => {
+            let counter = 0;
+            row.forEach((cell) => {
+
+            })
+        }) 
+
+    } **/
     function Cell(){
         let value = " "
     
@@ -34,9 +44,13 @@ function GameBoard(){
     }
     function CheckBox(row, column, player){
         board[row][column].setValue(player);
+        emptyGrids--;
+    }
+    function gridCounter(){
+        return emptyGrids
     }
 
-    return {GetBoard, PrintBoard, CheckBox, rows, columns};
+    return {GetBoard, PrintBoard, CheckBox, rows, columns, gridCounter, InitializeBoard};
 }
 
 function GameController(playerNameOne = "Player 1",
@@ -61,12 +75,15 @@ function GameController(playerNameOne = "Player 1",
     ]
 
     let activePlayer = players[0]
+    let winMessage;
     let winner;
+    let draw;
+    
     const gameboard = GameBoard()
     const displaycontrol = DisplayController()
 
     function PrintRound(){
-        if (!winner){
+        if (!winner && !draw){
             console.log(`${activePlayer.name}'s round starts!`)}
         gameboard.PrintBoard()
     }
@@ -76,17 +93,24 @@ function GameController(playerNameOne = "Player 1",
     }
 
     const GetActivePlayer = () => activePlayer
+    const checkTie = () => {
+        if (gameboard.gridCounter() == 0){
+            draw = 1
+            winMessage = "The game is tied!"
+        }
+    }
 
     const CheckWinner = function(player){
+        checkTie();
         let temp = gameboard.GetBoard()
-        const row1 = temp[0];
-        const row2 = temp[1];
-        const row3 = temp[2];
-        const col1 = [temp[0][0], temp[1][0], temp[2][0]];
-        const col2 = [temp[0][1], temp[1][1], temp[2][1]];
-        const col3 = [temp[0][2], temp[1][2], temp[2][2]];
-        const diag1 = [temp[2][0], temp[1][1], temp[0][2]];
-        const diag2 = [temp[0][2], temp[1][1], temp[2][0]];
+        let row1 = temp[0];
+        let row2 = temp[1];
+        let row3 = temp[2];
+        let col1 = [temp[0][0], temp[1][0], temp[2][0]];
+        let col2 = [temp[0][1], temp[1][1], temp[2][1]];
+        let col3 = [temp[0][2], temp[1][2], temp[2][2]];
+        let diag1 = [temp[2][0], temp[1][1], temp[0][2]];
+        let diag2 = [temp[0][2], temp[1][1], temp[2][0]];
         winConditions = [row1, row2, row3, col1, col2, col3, diag1, diag2]
         winConditions.forEach((array) =>{
             let counter = 0
@@ -94,8 +118,9 @@ function GameController(playerNameOne = "Player 1",
                 cell.getValue() == player.getMark() ? counter++ : counter
                 if (counter == 3){
                     winner = player
-                    console.log(`${winner.name} won!`)
-                }
+                    winMessage = `${winner.name} won!`
+                    console.log(winMessage)
+                } //this can be optimized
             })
         })
     }
@@ -111,23 +136,60 @@ function GameController(playerNameOne = "Player 1",
         }
     }
     const playRound = (row, column) =>{
-        gameboard.CheckBox(row, column, GetActivePlayer())
-        CheckWinner(GetActivePlayer())
-        SwitchPlayers();
-        PrintRound();
-        displaycontrol.refreshDisplay();
+        if (!winner && !draw){
+            gameboard.CheckBox(row, column, GetActivePlayer())
+            CheckWinner(GetActivePlayer())
+            SwitchPlayers();
+            PrintRound();
+            displaycontrol.refreshDisplay();
+            displaycontrol.refreshPlayer();
+            displaycontrol.displayWinner();
+        } else {
+            console.log("Game is over")
+        }
+        
     }
-    function clickHandler(event){
+
+    function clickHandlerGrid(event){
         colelement = event.target.id
             rowelement = event.target.parentElement.id
             col = colelement.split('-')[1]
             row = rowelement.split('-')[1]
-            playRound(row, col)
+            if (gameboard.GetBoard()[row][col].getValue() == " "){
+                playRound(row, col)
+            } else {
+                console.log("Invalid move")
+            }
     }
+
+    function clickHandlerButton(){
+        gameboard.InitializeBoard(gameboard.GetBoard(), gameboard.rows, gameboard.columns);
+        winner = undefined
+        draw = undefined
+        displaycontrol.refreshDisplay()
+
+    }
+
+    
+
+
+
     function DisplayController(){
         container = document.querySelector(".container")
-        document.addEventListener('click', clickHandler)
-    
+        button = document.querySelector("button.restart")
+        container.addEventListener('click', clickHandlerGrid)
+        button.addEventListener('click', clickHandlerButton)
+        
+        const refreshPlayer = () => {
+            playerText = document.querySelector('p.player-text')
+            playerText.textContent = GetActivePlayer().name
+        }
+        const displayWinner = () => {
+            if (winner || draw){
+                winElement = document.querySelector(".win-message")
+                winElement.textContent = winMessage
+            }
+        }
         const refreshDisplay = () => {
             console.log("refreshing display")
             for (i = 0; i < gameboard.rows; i++){
@@ -139,7 +201,7 @@ function GameController(playerNameOne = "Player 1",
             }
         }
     }
-        return {refreshDisplay}
+        return {refreshDisplay, refreshPlayer, displayWinner}
     }
     
 

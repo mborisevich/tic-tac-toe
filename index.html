@@ -7,23 +7,45 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-    <h1>Welcome to Tic Tac Toe!</h1>
-    <div class="container">
-        <div class="row" id="row-0">
-            <div class="col" id="col-0"></div>
-            <div class="col" id="col-1"></div>
-            <div class="col" id="col-2"></div>
+    <div class="main">
+        <div class="container">
+            <h1>Welcome to Tic Tac Toe!</h1>
+            <div class="row" id="row-0">
+                <div class="col" id="col-0"></div>
+                <div class="col" id="col-1"></div>
+                <div class="col" id="col-2"></div>
+            </div>
+            <div class="row" id="row-1">
+                <div class="col" id="col-0"></div>
+                <div class="col" id="col-1"></div>
+                <div class="col" id="col-2"></div>
+            </div>
+            <div class="row" id="row-2">
+                <div class="col" id="col-0"></div>
+                <div class="col" id="col-1"></div>
+                <div class="col" id="col-2"></div>
+            </div>
         </div>
-        <div class="row" id="row-1">
-            <div class="col" id="col-0"></div>
-            <div class="col" id="col-1"></div>
-            <div class="col" id="col-2"></div>
+        <p class="win-message"></p>
+        <div class="info">
+            <div class="player-config">
+                <form>
+                    <label for="name">Name of player 1 (X)</label>
+                    <input type="text" value="Player 1" id="name1">
+                    <label for="name2">Name of player 2 (X)</label>
+                    <input type="text" value="Player 2" id="name2">
+                    <input type="submit" value="confirm" id="submit">
+                </form>
+            </div>
+            <div class="player">
+                <p>Current player:</p>
+                <p class="player-text">Player 1</p>
+            </div>
+            <button class="restart">Restart</button>
         </div>
-        <div class="row" id="row-2">
-            <div class="col" id="col-0"></div>
-            <div class="col" id="col-1"></div>
-            <div class="col" id="col-2"></div>
-        </div>
+    </div>
+
+    
     <script src="javascript.js"></script>
 </body>
 </html>
