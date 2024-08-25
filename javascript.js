@@ -63,6 +63,9 @@ function GameController(playerNameOne = "Player 1",
             mark: "X",
             getMark: function(){
                 return this.mark
+            },
+            setName: function(name){
+                this.name = name
             }
         },
         {
@@ -70,6 +73,9 @@ function GameController(playerNameOne = "Player 1",
             mark: "O",
             getMark: function(){
                 return this.mark
+            },
+            setName: function(name){
+                this.name = name
             }
         }
     ]
@@ -162,12 +168,19 @@ function GameController(playerNameOne = "Player 1",
             }
     }
 
-    function clickHandlerButton(){
+    function clickHandlerRestart(){
         gameboard.InitializeBoard(gameboard.GetBoard(), gameboard.rows, gameboard.columns);
         winner = undefined
         draw = undefined
         displaycontrol.refreshDisplay()
 
+    }
+    function clickHandlerConfirm(){
+        nameInput1 = nameOne.value
+        nameInput2 = nameTwo.value
+        players[0].setName(nameInput1);
+        players[1].setName(nameInput2);
+        displaycontrol.refreshPlayer();
     }
 
     
@@ -176,9 +189,13 @@ function GameController(playerNameOne = "Player 1",
 
     function DisplayController(){
         container = document.querySelector(".container")
-        button = document.querySelector("button.restart")
+        button = document.querySelector(".restart")
+        confirmButton = document.querySelector("input.confirm")
+        nameOne = document.querySelector('input#name1')
+        nameTwo = document.querySelector('input#name2')
         container.addEventListener('click', clickHandlerGrid)
-        button.addEventListener('click', clickHandlerButton)
+        button.addEventListener('click', clickHandlerRestart)
+        confirmButton.addEventListener('click', clickHandlerConfirm)
         
         const refreshPlayer = () => {
             playerText = document.querySelector('p.player-text')

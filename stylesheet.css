@@ -59,6 +59,8 @@ div.main {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 div.col{
     display: flex;
@@ -109,7 +111,7 @@ div.info>button.restart {
 
 .win-message {
     font-size: 3rem;
-    padding: 10px;
+    margin: 50px;
 }
 form {
     font-size: 1.3rem;
